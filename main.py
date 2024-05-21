@@ -86,42 +86,45 @@ def notepad_function(open_file_name=None):
         else:
             messagebox.showerror(title="Empty field", message="You cannot leave the file name blank")
 
-    def open_text_file():
-        def open_file():
-            text = open_file_entry.get()
-            if text != "":
-                try:
-                    with open(f"text files/{text}", "r") as file:
-                        file_contents = file.read()
-                    notepad_entry.delete('1.0', 'end')
-                    notepad_entry.insert("1.0", file_contents)
-                    open_file_window.destroy()
-                    notepad_window.title(f"notepad - {text}")
-                except FileNotFoundError:
-                    messagebox.showerror("File not found", "File was not found. Check the spelling and try again")
-            else:
-                messagebox.showerror(title="Empty field", message="You cannot leave the file name field empty")
+    # def open_text_file():
+    #     def open_file():
+    #         text = open_file_entry.get()
+    #         if text != "":
+    #             try:
+    #                 with open(f"text files/{text}", "r") as file:
+    #                     file_contents = file.read()
+    #                 notepad_entry.delete('1.0', 'end')
+    #                 notepad_entry.insert("1.0", file_contents)
+    #                 open_file_window.destroy()
+    #                 notepad_window.title(f"notepad - {text}")
+    #             except FileNotFoundError:
+    #                 messagebox.showerror("File not found", "File was not found. Check the spelling and try again")
+    #         else:
+    #             messagebox.showerror(title="Empty field", message="You cannot leave the file name field empty")
 
+    def open_file_any(file_name):
 
-        open_file_window = Toplevel(root)
-        open_file_window.config(height=50, width=250)
-        open_file_entry = ttk.Entry(open_file_window)
-        open_file_entry.place(x=60, y=0)
-        open_file_label = ttk.Label(open_file_window, text="File name:")
-        open_file_label.place(x=0, y=0)
-        open_file_button = ttk.Button(open_file_window, text="open", command=open_file)
-        open_file_button.place(x=150, y=0)
+        text = file_name
+        try :
 
-    if open_file_name is not None:
-
-        def open_file_any(file_name):
-
-            text = file_name
             with open(f"text files/{text}", "r") as file:
                 file_contents = file.read()
-            notepad_entry.delete('1.0', 'end')
-            notepad_entry.insert("1.0", file_contents)
-            notepad_window.title(f"notepad - {text}")
+        except FileNotFoundError:
+            print("FileNotFoundError: ill deal with this later")
+        notepad_entry.delete('1.0', 'end')
+        notepad_entry.insert("1.0", file_contents)
+        notepad_window.title(f"notepad - {text}")
+        # open_file_window = Toplevel(root)
+        # open_file_window.config(height=50, width=250)
+        # open_file_entry = ttk.Entry(open_file_window)
+        # open_file_entry.place(x=60, y=0)
+        # open_file_label = ttk.Label(open_file_window, text="File name:")
+        # open_file_label.place(x=0, y=0)
+        # open_file_button = ttk.Button(open_file_window, text="open", command=file_explorer)
+        # open_file_button.place(x=150, y=0)
+
+
+
 
     file_name_label = ttk.Label(notepad_window, text="Save as:")
     file_name_label.place(x=0, y=925)
@@ -129,7 +132,7 @@ def notepad_function(open_file_name=None):
     file_name_entry.place(x=60, y=925)
     notepad_save_button = ttk.Button(notepad_window, text="save", command=save)
     notepad_save_button.place(x=190, y=925)
-    open_button = ttk.Button(notepad_window, text="open", command=open_text_file)
+    open_button = ttk.Button(notepad_window, text="open", command=file_explorer)
     open_button.place(x=300, y=925)
     if open_file_name is not None:
         open_file_any(file_name=open_file_name)
